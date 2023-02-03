@@ -1,0 +1,36 @@
+SCAN Tipleri
+TCP-SYN Scan: Varsayılan ve en popüler tarama çeşididir. TCP bağlantısı tam olaran gerçekleşmediği için nispeten gizli bir yöntemdir. Open,closed,filtered port durumlarını bulma konusunda güçlüdür. Bu tarama için admin ya da root olmak gerekir.
+	-> Port açıksa: nmap Three Way Handshake'i tamamlamasına gerek kalmadan devam eder çünkü portun açık olduğu bilgisini almıştır. Devamında RST paketi gönderilmezse hedef sürekli SYN/ACK paketi göndermeye devam eder. Bağlantıyı koparmak için RST paketi gönderilir. Three Way Handshake tamamlanmadığı için "Half-Open Scanning" de denir.
+	-> Port kapalıysa: Daha kolay bir yöntemdir. Gene SYN paketi gönderilir fakat portun kapalı olduğu gözlenirse direkt RST paketi gönderilip iletişim sonlanır.
+	-> Port filtreliyse: Gene SYN paketi gönderir fakat filtreli portlarda cevap gelmez, yanıt yavaş olabileceği için beklenir. Eğer cevap gelmezse bir defa daha SYN paketi gönderilir, cevap beklenir eğer gene gelmezse port filtreli olarak işaretlenir.
+KOMUT: nmap -s(scan)S(scan çeşidi burada SYN) <hedef site url>
+
+TCP Connect Scan: Root ya da admin olarak giriş yapılmadığında ya da IPv6 networklerin taramasında Nmapte varsayılan olarak kullanılan tarama çeşididir. Bu tarama çeşidi log tutar ve IDSler tarafından yakalanır fakat çoğu sistem IDSlere sahip değildir. Eğer alternatif olarak SYN taraması varsa o tercih edilmelidir.
+KOMUT: nmap -s(scan)T(scan çeşidi burada TCP) <hedef site url>
+ALTERNATIF KOMUT: nmap -s(scan)T(TCP) -Pn(Pingisiz) -p(hedef port) <port numarası> <hedef site url>
+
+UDP Tarama: TCP en çok kullanılan protokol olmasına karşın, halen birçok ağ hizmeti UDP'yi kullanmaktadır. Bir denetim esnasında hem TCP hem UDP taraması yapmak testi daha optimize bir hale getirecektir. UDP taraması TCP'den daha yavaş ve daha zor olduğu için genellikle bu portlar yok sayılır. Fakat saldırganlar genel olarak bütün portları sömürdüğü için bu çok yaygın yapılan bir hatadır. UDP'de TCP'nin aksine flagler yoktur. UDP taraması bütün portlara UDP paketleri gönderme ile çalışır. Çoğu bağlantı noktası için boş paketler gönderir ve ancak daha yayın bağlantı noktaları için protokole özgü dolu paketler gönderir.
+	-> Port açıksa: UDP taramasında gönderilen UDP paketine karşılık olarak herhangi bir UDP cevabı dönerse bu portun açık olduğunu belirtir.
+	-> Port kapalıysa: Tarama sırasında gönderilen UDP paketine karşılık ICMP(Type3,Code3)Destination Unreachable- Port Unreachable cevapları dönerse bu portun kapalı olduğu anlaşılır.
+	-> Port open filtred: UDP paketine cevap gelmez ve diğer gönderilen UDP paketine de cevap gelmezse port nmap tarafından open filtered olarak işaretlenir.
+	-> Port filtred: Gönderilen UDP paketine karşılık farklı ICMP kodları dönerse port filtreli olarak belirlenir.
+KOMUT: nmap -s(scan)U(scan çeşidi burada UDP) <hedef site url>
+ALTERNATIF KOMUT: nmap -s(scan)U(UDP) -Pn(Pingisiz) -p(hedef port) <port numarası> <hedef site url>
+
+FIN TARAMASI: Nmap bu taramada hedeflenen porta bir FIN flagi gönderir ve gelen geri dönüte göre portun açık ya da kapalı olduğunu anlar.
+KOMUT: nmap -s(scan)F(FIN) -Pn(Pingisiz) -p(hedef port) <port numarası> <hedef site url>
+Eğer porttan dönen cevap RST ve ACK ise port kapalıdır. Fakat eğer porttan bir geri dönüş alınmazsa bu portun OPEN olduğu anlamına gelir.
+
+NULL TARAMASI: nmap tarafından hedef porta sıfır değerindeki NULL flagi gönderilir. Hedef port bu flagi yorumlayamaz. Eğer port açık ise herhangi bir geri dönüş yapılamaz. Fakat eğer port kapalıysa geri dönüt olarak bir RST,ACK paketi gelecektir.
+KOMUT: nmap -s(scan)N(FIN) -Pn(Pingisiz) -p(hedef port) <port numarası> <hedef site url>
+
+XMAS TARAMASI:nmap XMAS taraması esnasında hedef porta PSH,URG ve FIN flagleri gönderecektir. Eğer port açıksa bir geri dönüş olmaz fakat port kapalı ise RST,ACK paketleri geri gönderir.
+KOMUT: nmap -s(scan)X(XMAS) -Pn(Pingisiz) -p(hedef port) <port numarası> <hedef site url>
+
+TCP/ACK TARAMASI: nmap bu taramada hedef porta ACK flagi gönderir ve bir geri dönüş olmaz veya ICMP mesajı geri dönerse port filtreli olarak belirlenir. Fakat eğer RST paketi gönderilirse port açık anlamına gelmektedir.
+KOMUT: nmap -s(scan)A(ACK) -Pn(Pingisiz) -p(hedef port) <port numarası> <hedef site url>
+
+MAIMON TARAMASI: Porta FIN/ACK paketi gönderilir. Hedefin RST paketi göndermesi gerekir. Ancak, bazı BSD tabanlı sistemler, açık bir portun gösterdiği durumda paketi düşürür. Bu tarama, modern ağlarda karşılaşılan çoğu hedefte çalışmayacaktır
+KOMUT: nmap -sM <hedef IP>
+
+NOT: Özelleştirilmiş bir tarama yapmak istiyorsak, "nmap --scanflags <istenilen flagler örneğin SYN ACK> <hedef IP> komutu kullanılabilir.
