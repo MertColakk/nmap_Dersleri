@@ -1,0 +1,33 @@
+Network Mapper anlamına gelir. Ağ keşfi, güvenlik denetimi gibi konular için kullanılan bir yazılımdır. Nmap ağdaki cihazları açık kapalı filtreleri portları ve portlarda çalışan uygulamaları ve versiyonları bulmak gibi konular için kullanılır. işletim sistemleri, güvenlik duvarı türleri gibi şeyleri de gösterir.
+Port: Giriş, bağlantı noktası anlamına gelen Fiziksel ve sanal olmak üzere 2 adet türü vardır.
+1-Fiziksel Port
+2-Sanal Port
+
+TCP Flagleri:
+SYN - Senkronizasyon
+ACK - Bilgilendirme
+FIN - Bağlantıyı kesme
+RST - Reset
+URG - Acil
+PSH - Itme
+
+Three Way Handshake: Three-way handshake, ağ protokolleri için yaygın olarak kullanılan bir bağlantı kurma süreci içinde kullanılan bir protokoldür. Bu protokol, bir istemci ve sunucu arasındaki bağlantıyı kurmak ve yapılandırmak için üç adımdan oluşur. Üç adım şunlardır:
+	Başlangıç: İstemci, sunucuya bir "SYN" (Synchronize) paketi gönderir. Bu paket, istemcinin sunucuya bağlantı kurmak istediğini belirtir.
+	Onay: Sunucu, istemciye bir "SYN-ACK" (Synchronize-Acknowledge) paketi gönderir. Bu paket, sunucunun bağlantı kurma isteğini kabul ettiğini ve sunucunun istemciye bağlanabileceğini belirtir.
+	Bitiş: İstemci, sunucuya bir "ACK" (Acknowledge) paketi gönderir. Bu paket, bağlantının tamamlandığını ve bağlantının aktif olduğunu belirtir.
+Bu üç adımlı süreç, bir istemci ve sunucu arasındaki bağlantıyı doğru ve güvenli bir şekilde kurmasını sağlar. Three-way handshake, TCP (Transmission Control Protocol) bağlantısının kurulum sürecinde kullanılır ve ağda güvenli veri akışını sağlar.
+
+Port State
+Nmapte 6 çeşit port state'i vardır. Port State hedef sistem hakkında bize bilgi verir. Port stateleri:
+	1- Open: TCP UDP VE SCTP gibi bağlantıları kabul eder. Bu portları filtrelemek için firewall, IDS, Proxy gibi güvenlik cihazları kullanılır. Birer zafiyettir.
+	2- Closed: Ulaşılabilirdir fakat herhangi bir uygulama yoktur. IP adresi tespiti, makineni durumu ve işletim sistemi tespitinde yardımcı olur. Güvenlik cihazı ile engellenirse "filtered" olur.
+	3- Filtred: Güvenlik araçları nmap'in porta ulaşmasını engellediği için portun açık ya da kapalı olduğu tespit edilemez. Genelde hata vermez fakat "ICMP error type 3" yani "destination unreachable" mesajı görülebilir. Mesaj görülmeme durumu daha yaygındır. Bu durum taramayı tekrar yapacağından yavaşlamaya sebebiyet verir.
+	4- Unfiltered: Port erişilebilirdir ancak nmap portun açık ya da kapalı olduğunu göremez. Genellikle ACK taramasında "unfiltered" sonucu gelir. Bu durumda Windows Scan, SYN Scan, FIN Scan gibi tarama yöntemlerine geçilip port durumu tespit edilebilir.
+	5- Open-Filtered: nmap bu durumda port açık mı kapalı mı yoksa filtreli mi olduğuna karar veremez. Bu durum çoğunlukla açık bağlantı noktalarının yanıt vermediği tarama türlerinde olur. Örnek olarak UDP, IP Protocol, FIN, NULL ve XMAS taramaları bu sonucu döndürebilir.
+	6- Closed-Filtered: nmap bu durumda port açık mı kapalı mı karar veremez. Tek çare tarama türünü değiştirmektir. Popüler bir port durumu değildir.
+	
+SSH (Secure Shell): SSH, güvenli bir şekilde bir bilgisayarın komut satırına veya terminali başka bir bilgisayardan erişmek için kullanılan bir ağ protokolüdür. SSH, güvenli veri akışını sağlamak için şifreleme kullanır ve açık anahtarlı şifreleme veya kişisel anahtar şifreleme gibi güvenli anahtar yöntemleri kullanır.
+
+SMTP (Simple Mail Transfer Protocol): SMTP, elektronik posta mesajlarının internet üzerinden gönderilmesi için kullanılan bir ağ protokolüdür. SMTP, bir e-posta sunucusundan diğerine mesajın güvenli bir şekilde gitmesini sağlar.
+
+Telnet: Telnet, internet üzerinden başka bir bilgisayara erişmek için kullanılan bir ağ protokolüdür. Telnet, bir kullanıcının uzaktaki bir bilgisayarın komut satırına veya terminali başka bir bilgisayardan erişmesini sağlar. Ancak, Telnet güvenli veri akışını sağlamaz ve veri şifrelenmez, bu nedenle güncel olarak güvenliği nedeniyle daha az kullanılır.
