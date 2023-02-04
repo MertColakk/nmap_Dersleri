@@ -1,0 +1,31 @@
+Port Specification: Bir hedef portu seçerek o port hakkında bilgi edinmeyi sağlar. 
+Komut: nmap -p(Port) <Port Numarası> <Hedef IP> 
+NOT: Eğer port numarasının aralarına virgül koyarsanız birden fazla portu tarar. Örneğin
+nmap -p 22,25,29 scanme.nmap.org
+NOT2: Eğer port numaraları arasına "-" işareti koyup son taramak istediğiniz port numarasını yazarsanız belirlenen portların aralığını tarar. Örneğin
+nmap -p 22-50 scanme.nmap.org -> Komutu ile 22. ile 50. portların arasını tarayabilirsiniz.
+
+Belirli Portlar Hariç Tarama: Bu komut ile belirlenen portların haricindeki portları tararsınız. nmap aracı default olarak 1000 portu tarar fakat 100 tane port çıkartırsak hala 1000 adet port tarayacağı için 1100. porta kadar taramış olur.
+KOMUT: nmap --exclude-ports 100-200 scanme.nmap.org
+
+Hedeflenen TCP ve UDP Portlarının Taranması: Bu komut ile hedeflediğimiz TCP portunu, hedeflenen UDP portunu ve harici bir portu tarayabilirsiniz.
+KOMUT: nmap -sU -sS(SYN Stealth yani gizli taramadır) -p U:53,T:21-25,80 scanme.nmap.org
+
+Bütün Portları Tarama: Ortalama 65000 adet bulunan tüm portları tarar.
+KOMUT: nmap -p- scanme.nmap.org
+
+Belirli Bir Protokol ile Çalışan Portları Tarama: Bu komut ile belirli bir protokol ile çalışan "örneğin http" portları bulmak için kullanılır.
+KOMUT: nmap -p http scanme.nmap.org
+
+NOT: Eğer tarayacağınız protokolün adını hatırlayamadıysanız protokolün başını yazıp geri kalanına soru işareti(?) koyarsanız nmap otomatik olarak tamamlar. Örneğin
+nmap -p http????? scanme.nmap.org
+Ya da bir başka kullanım olarak nmap -p remote* scanme.nmap.org -> Bu komutta nmap başı remote olan protokolleri tarar. Yıldız olan kısmı kendi doldurur.
+
+Daha Hızlı Tarama: Bu komut ile en popüler 100 port taranır.
+KOMUT: nmap -F scanme.nmap.org
+
+Istenilen Miktarda Popüler Port Tarama: Bu komut ile belirttiğimiz kadar popüler portları tarayabiliriz.
+KOMUT: nmap --top-ports scanme.nmap.org
+
+Sıralı Tarama: Bu komut ile random değil de belirlediğimiz aralıktaki bütün portları sıra ile tararız.
+KOMUT: nmap -r -p 10-45 scanme.nmap.org
